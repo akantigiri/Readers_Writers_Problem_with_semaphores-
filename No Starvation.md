@@ -47,6 +47,6 @@ signal(rwMutex);
 signal(mutex);
 }while(true);
 ```
-
+ This solution for third Readers-Writers problem will only satisfy the condition that no thread shall be allowed to starve iff semaphores preserve first-in first-out ordering when blocking and releasing threads. If else a blocked writer may remain blocked indefinitely with a cycle of other writers decrementing the semaphore before it can and it is similar with that of readers.
 
 
