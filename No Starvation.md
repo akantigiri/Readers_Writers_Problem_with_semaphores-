@@ -12,13 +12,14 @@ int readCount=0;       // This semaphore is used to count no of reading process
 Structure of writer process:
 ```
 do{
-wait(enter);
-wait(rwMutex);
-...
+wait(enter);            //Lock enter semaphore to prevent reader process from reading
+wait(rwMutex);          //Lock rwMutex to prevent other writing processes from writing
+... 
 ...
 //Writing is done here
 ...
 ...
+//After writing release the semaphores resource access for next reader/writer.
 signal(rwMutex);
 signal(enter);
 }while(true);
@@ -26,21 +27,21 @@ signal(enter);
 Structure of reader process:
 ```
 do{
-wait(enter);
-wait(mutex);
+wait(enter);           //Wait if there are any writers using enter. 
+wait(mutex);          //Lock mutex to update readCount 
 readCount++;
-if(readCount==1){
+if(readCount==1){      //if it is the first reader lock rwMutex to prevent writers from writing.
 wait(rwMutex);}
-signal(mutex);
+signal(mutex);         //Release enter and mutex 
 signal(enter);
 ...
 ...
 //Reading is done here
 ...
 ...
-wait(mutex);
+wait(mutex);          //lock mutex to update readCount
 readCount--;
-if(readCount==0){
+if(readCount==0){       //if it is last reading process release rwMutex to allow other writers to write
 signal(rwMutex);
 }
 signal(mutex);
