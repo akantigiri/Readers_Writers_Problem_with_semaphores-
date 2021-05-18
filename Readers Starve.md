@@ -4,10 +4,14 @@ Semaphores and Variables used:
 ```
 //All semaphores initialised to 1
 semaphore rwMutex;           // This semaphore is used for mutual exclusion of reading or writing processes
-semaphore readMutex;        //This semaphore is used for mutual exclusion between reading processes. It is used for short duration while updating read_count, not                                //during the reading process itself
-semaphore writeMutex;
-semaphore readTry
-int readCount=0;
-int writeCount=0;
+semaphore readMutex;        //This semaphore is used for mutual exclusion between reading processes. It is used for short duration while updating read_count, not during the reading process itself
+semaphore writeMutex;       //This semaphore is used for mutual exclusion between writing processes. It is used for a short duration while updating write_count, not during the writing process itself.
+semaphore readTry;          //This semaphore is used by writing processes to lock out reading processes.
+int readCount=0;            // This semaphore is used to count number of reading process
+int writeCount=0;           // This semaphore is used to count number of writing process   
+```
+Structure of Writer Process:
+```
+
 
 
